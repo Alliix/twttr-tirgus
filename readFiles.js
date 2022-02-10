@@ -1,5 +1,5 @@
 const fs = require("fs");
-const brandConfig = require("./brandConfig.js");
+const { brandConfig } = require("./brandConfig.js");
 
 const tweetIsInArray = (newTweet, existingTweets) =>
   existingTweets.length &&
@@ -7,11 +7,20 @@ const tweetIsInArray = (newTweet, existingTweets) =>
     (existingTweet) => newTweet.tweetId === existingTweet.tweetId
   );
 
-const returnOriginalTweet = (newTweet, existingTweets) =>
-  newTweet.retweetedId &&
+const foundRetweet = (newTweet, existingTweets) =>
   existingTweets.length &&
   existingTweets.find(
     (existingTweet) => newTweet.retweetedId === existingTweet.tweetId
+  );
+
+const incrementRetweetCountOnOriginalTweet = (newTweet, existingTweets) =>
+  existingTweets.map((existingTweet) =>
+    newTweet.retweetedId === existingTweet.tweetId
+      ? {
+          ...existingTweet,
+          retweetCount: existingTweet.retweetCount + 1,
+        }
+      : existingTweet
   );
 
 const returnRegExpStr = (searchPhrase) => {
@@ -35,13 +44,12 @@ const readTweets = () => {
   const dir = "./latvian-tweet-corpus-files";
   let totalReadTweetCount = 0;
   let totalWrittenTweetCount = 0;
-
   fs.readdir(dir, (err, files) => {
     if (err) {
       throw err;
     }
 
-    files.slice(2, 3).forEach((file) => {
+    files.forEach((file) => {
       console.log(
         `Reading file ${file} (${files.findIndex((f) => f === file) + 1} of ${
           files.length
@@ -52,115 +60,72 @@ const readTweets = () => {
       console.log(`Reading ${newTweets.length} tweets`);
       totalReadTweetCount = totalReadTweetCount + newTweets.length;
       newTweets.forEach((tweet) => {
-        if (!tweet.inReplyToStatusId && !tweet.inReplyToUserId) {
-          brandConfig.brandConfig.forEach((brand) => {
-            switch (true) {
-              case brand.accountNames.length &&
-                brand.accountNames.includes(tweet.userScreenName):
-                let existingBrandTweets = fs.readFileSync(
-                  brand.brandFile,
-                  "utf-8"
+        brandConfig.forEach((brand) => {
+          //------------------------------ is brand account tweet ------------------------------
+          if (
+            brand.accountNames.length &&
+            brand.accountNames.includes(tweet.userScreenName)
+          ) {
+            //read existing brand tweets
+            let existingBrandTweets = fs.readFileSync(brand.brandFile, "utf-8");
+            existingBrandTweets = JSON.parse(existingBrandTweets);
+            //check unique
+            if (!tweetIsInArray(tweet, existingBrandTweets)) {
+              totalWrittenTweetCount++;
+              existingBrandTweets.push({
+                ...tweet,
+                retweetCount: 0,
+                label: tweet.sentiment === -1 ? 2 : tweet.sentiment,
+              });
+              const tweetsBrandJson = JSON.stringify(existingBrandTweets);
+              fs.writeFileSync(brand.brandFile, tweetsBrandJson, "utf-8");
+            }
+          }
+          //------------------------------ brand is mentioned in tweet ------------------------------
+          else if (matchTweetMessageToRegExp(tweet.message, brand)) {
+            //read existing people tweets
+            let existingPeopleTweets = fs.readFileSync(
+              brand.peopleTweets,
+              "utf-8"
+            );
+            existingPeopleTweets = JSON.parse(existingPeopleTweets);
+            //check retweet
+            if (tweet.retweetedId) {
+              //read existing brand tweets
+              let existingBrandTweets = fs.readFileSync(
+                brand.brandFile,
+                "utf-8"
+              );
+              existingBrandTweets = JSON.parse(existingBrandTweets);
+              if (foundRetweet(tweet, existingBrandTweets)) {
+                existingBrandTweets = incrementRetweetCountOnOriginalTweet(
+                  tweet,
+                  existingBrandTweets
                 );
-                existingBrandTweets = JSON.parse(existingBrandTweets);
-                //check unique
-                if (
-                  !tweetIsInArray(tweet, existingBrandTweets) &&
-                  !tweet.retweetedId
-                ) {
-                  totalWrittenTweetCount++;
-                  existingBrandTweets.push({
-                    ...tweet,
-                    retweetCount: 0,
-                    label: tweet.sentiment
-                      ? tweet.sentiment === -1
-                        ? 2
-                        : tweet.sentiment
-                      : null,
-                  });
-                  const tweetsBrandJson = JSON.stringify(existingBrandTweets);
-                  fs.writeFileSync(brand.brandFile, tweetsBrandJson, "utf-8");
-                }
-                break;
-              case matchTweetMessageToRegExp(tweet.message, brand):
-                let existingPeopleTweets = fs.readFileSync(
-                  brand.peopleTweets,
-                  "utf-8"
-                );
-                existingPeopleTweets = JSON.parse(existingPeopleTweets);
-                let existingBrandTweetsToCheckRetweet = fs.readFileSync(
-                  brand.brandFile,
-                  "utf-8"
-                );
-                existingBrandTweetsToCheckRetweet = JSON.parse(
-                  existingBrandTweetsToCheckRetweet
-                );
-                //check retweet in people tweets
-                const originalTweetInPeopleTweets = returnOriginalTweet(
+                const tweetsBrandJson = JSON.stringify(existingBrandTweets);
+                fs.writeFileSync(brand.brandFile, tweetsBrandJson, "utf-8");
+              } else if (foundRetweet(tweet, existingPeopleTweets)) {
+                existingPeopleTweets = incrementRetweetCountOnOriginalTweet(
                   tweet,
                   existingPeopleTweets
                 );
-                if (originalTweetInPeopleTweets) {
-                  existingPeopleTweets = existingPeopleTweets.map(
-                    (existingTweet) =>
-                      existingTweet.tweetId ===
-                      originalTweetInPeopleTweets.tweetId
-                        ? {
-                            ...existingTweet,
-                            retweetCount: existingTweet.retweetCount + 1,
-                          }
-                        : existingTweet
-                  );
-                }
-                //check retweet in brand tweets
-                const originalTweetInBrandTweets = returnOriginalTweet(
-                  tweet,
-                  existingBrandTweetsToCheckRetweet
-                );
-                if (originalTweetInBrandTweets) {
-                  existingBrandTweetsToCheckRetweet =
-                    existingBrandTweetsToCheckRetweet.map((existingTweet) => {
-                      if (
-                        existingTweet.tweetId ===
-                        originalTweetInBrandTweets.tweetId
-                      )
-                        existingTweet.retweetCount + 1;
-                    });
-                }
-                //check unique
-                if (
-                  !originalTweetInPeopleTweets &&
-                  !originalTweetInBrandTweets &&
-                  !tweetIsInArray(tweet, existingPeopleTweets) &&
-                  !tweet.retweetedId
-                ) {
-                  totalWrittenTweetCount++;
-                  existingPeopleTweets.push({
-                    ...tweet,
-                    retweetCount: 0,
-                    label: tweet.sentiment
-                      ? tweet.sentiment === -1
-                        ? 2
-                        : tweet.sentiment
-                      : null,
-                  });
-                }
                 const tweetsPeopleJson = JSON.stringify(existingPeopleTweets);
                 fs.writeFileSync(brand.peopleTweets, tweetsPeopleJson, "utf-8");
-                //write to brand tweets if retweetCount++ there
-                const tweetsBrandJsonWithRetweet = JSON.stringify(
-                  existingBrandTweetsToCheckRetweet
-                );
-                fs.writeFileSync(
-                  brand.brandFile,
-                  tweetsBrandJsonWithRetweet,
-                  "utf-8"
-                );
-                break;
-              default:
-                break;
+              }
             }
-          });
-        }
+            //check unique
+            else if (!tweetIsInArray(tweet, existingPeopleTweets)) {
+              totalWrittenTweetCount++;
+              existingPeopleTweets.push({
+                ...tweet,
+                retweetCount: 0,
+                label: tweet.sentiment === -1 ? 2 : tweet.sentiment,
+              });
+              const tweetsPeopleJson = JSON.stringify(existingPeopleTweets);
+              fs.writeFileSync(brand.peopleTweets, tweetsPeopleJson, "utf-8");
+            }
+          }
+        });
       });
       console.log(
         `Read tweets: ${totalReadTweetCount}. Written tweets: ${totalWrittenTweetCount}`
@@ -172,25 +137,21 @@ const readTweets = () => {
 const cleanFiles = () => {
   const dir = "./brandTweets";
   const dir2 = "./peopleTweets";
-
   // brand tweets
   fs.readdir(dir, (err, files) => {
     if (err) {
       throw err;
     }
-
     files.forEach((file) => {
       const tweetsEmpty = JSON.stringify([]);
       fs.writeFileSync(dir + "/" + file, tweetsEmpty, "utf-8");
     });
   });
-
   // people tweets
   fs.readdir(dir2, (err, files2) => {
     if (err) {
       throw err;
     }
-
     files2.forEach((file) => {
       const tweetsEmpty = JSON.stringify([]);
       fs.writeFileSync(dir2 + "/" + file, tweetsEmpty, "utf-8");
