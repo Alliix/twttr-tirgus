@@ -75,7 +75,6 @@ const readTweets = () => {
               existingBrandTweets.push({
                 ...tweet,
                 retweetCount: 0,
-                label: tweet.sentiment === -1 ? 2 : tweet.sentiment,
               });
               const tweetsBrandJson = JSON.stringify(existingBrandTweets);
               fs.writeFileSync(brand.brandFile, tweetsBrandJson, "utf-8");
@@ -119,7 +118,6 @@ const readTweets = () => {
               existingPeopleTweets.push({
                 ...tweet,
                 retweetCount: 0,
-                label: tweet.sentiment === -1 ? 2 : tweet.sentiment,
               });
               const tweetsPeopleJson = JSON.stringify(existingPeopleTweets);
               fs.writeFileSync(brand.peopleTweets, tweetsPeopleJson, "utf-8");
@@ -158,5 +156,3 @@ const cleanFiles = () => {
     });
   });
 };
-
-readTweets();
