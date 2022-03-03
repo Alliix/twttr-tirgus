@@ -110,3 +110,6 @@ allTweets/
 labeledTweets/
 
 venv38twttr/
+
+# Jupyter Notebook
+.ipynb_checkpoints
