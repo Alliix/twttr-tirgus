@@ -106,3 +106,7 @@ dist
 latvian-tweet-corpus-files/
 peopleTweets/
 brandTweets/
+allTweets/
+labeledTweets/
+
+venv38twttr/
