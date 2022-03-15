@@ -113,3 +113,5 @@ venv38twttr/
 
 # Jupyter Notebook
 .ipynb_checkpoints
+
+BERT/datasetsLowercase
