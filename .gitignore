@@ -114,4 +114,7 @@ venv38twttr/
 # Jupyter Notebook
 .ipynb_checkpoints
 
-BERT/datasetsLowercase
+BERT/addEmoji/modelsEmoji
+BERT/addUNKtokens/modelsUNK
+BERT/base/modelsBase
+BERT/cleaned/modelsCleaned
