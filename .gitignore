@@ -120,3 +120,5 @@ BERT/base/modelsBase
 BERT/base/modelsBase-pnn
 BERT/base/modelsBaseTwttrPNN
 BERT/cleaned/modelsCleaned
+BERT/cleaned/modelsCleaned-pnn
+BERT/cleaned/modelsCleanedTwttrPNN
