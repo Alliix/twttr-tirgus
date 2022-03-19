@@ -166,3 +166,4 @@ LaBSE/addUNKtokens/modelsUNKTwttrPNN
 LaBSE/addEmoji/modelsEmoji
 LaBSE/addEmoji/modelsEmoji-pnn
 LaBSE/addEmoji/modelsEmojiTwttrPNN
+LaBSE/labse_bert_model
