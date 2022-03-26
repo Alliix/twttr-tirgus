@@ -140,6 +140,19 @@ ELECTRA/addEmoji/modelsEmoji
 ELECTRA/addEmoji/modelsEmoji-pnn
 ELECTRA/addEmoji/modelsEmojiTwttrPNN
 
+ELECTRA - bigger/base/modelsBase
+ELECTRA - bigger/base/modelsBase-pnn
+ELECTRA - bigger/base/modelsBaseTwttrPNN
+ELECTRA - bigger/cleaned/modelsCleaned
+ELECTRA - bigger/cleaned/modelsCleaned-pnn
+ELECTRA - bigger/cleaned/modelsCleanedTwttrPNN
+ELECTRA - bigger/addUNKtokens/modelsUNK
+ELECTRA - bigger/addUNKtokens/modelsUNK-pnn
+ELECTRA - bigger/addUNKtokens/modelsUNKTwttrPNN
+ELECTRA - bigger/addEmoji/modelsEmoji
+ELECTRA - bigger/addEmoji/modelsEmoji-pnn
+ELECTRA - bigger/addEmoji/modelsEmojiTwttrPNN
+
 lvBERT/base/modelsBase
 lvBERT/base/modelsBase-pnn
 lvBERT/base/modelsBaseTwttrPNN
