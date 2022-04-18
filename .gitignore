@@ -127,31 +127,31 @@ BERT/addEmoji/modelsEmoji
 BERT/addEmoji/modelsEmoji-pnn
 BERT/addEmoji/modelsEmojiTwttrPNN
 
-ELECTRA/base/modelsBase
-ELECTRA/base/modelsBase-pnn
-ELECTRA/base/modelsBaseTwttrPNN
-ELECTRA/cleaned/modelsCleaned
-ELECTRA/cleaned/modelsCleaned-pnn
-ELECTRA/cleaned/modelsCleanedTwttrPNN
-ELECTRA/addUNKtokens/modelsUNK
-ELECTRA/addUNKtokens/modelsUNK-pnn
-ELECTRA/addUNKtokens/modelsUNKTwttrPNN
-ELECTRA/addEmoji/modelsEmoji
-ELECTRA/addEmoji/modelsEmoji-pnn
-ELECTRA/addEmoji/modelsEmojiTwttrPNN
+ELECTRAsmall/base/modelsBase
+ELECTRAsmall/base/modelsBase-pnn
+ELECTRAsmall/base/modelsBaseTwttrPNN
+ELECTRAsmall/cleaned/modelsCleaned
+ELECTRAsmall/cleaned/modelsCleaned-pnn
+ELECTRAsmall/cleaned/modelsCleanedTwttrPNN
+ELECTRAsmall/addUNKtokens/modelsUNK
+ELECTRAsmall/addUNKtokens/modelsUNK-pnn
+ELECTRAsmall/addUNKtokens/modelsUNKTwttrPNN
+ELECTRAsmall/addEmoji/modelsEmoji
+ELECTRAsmall/addEmoji/modelsEmoji-pnn
+ELECTRAsmall/addEmoji/modelsEmojiTwttrPNN
 
-ELECTRA - bigger/base/modelsBase
-ELECTRA - bigger/base/modelsBase-pnn
-ELECTRA - bigger/base/modelsBaseTwttrPNN
-ELECTRA - bigger/cleaned/modelsCleaned
-ELECTRA - bigger/cleaned/modelsCleaned-pnn
-ELECTRA - bigger/cleaned/modelsCleanedTwttrPNN
-ELECTRA - bigger/addUNKtokens/modelsUNK
-ELECTRA - bigger/addUNKtokens/modelsUNK-pnn
-ELECTRA - bigger/addUNKtokens/modelsUNKTwttrPNN
-ELECTRA - bigger/addEmoji/modelsEmoji
-ELECTRA - bigger/addEmoji/modelsEmoji-pnn
-ELECTRA - bigger/addEmoji/modelsEmojiTwttrPNN
+ELECTRAbase/base/modelsBase
+ELECTRAbase/base/modelsBase-pnn
+ELECTRAbase/base/modelsBaseTwttrPNN
+ELECTRAbase/cleaned/modelsCleaned
+ELECTRAbase/cleaned/modelsCleaned-pnn
+ELECTRAbase/cleaned/modelsCleanedTwttrPNN
+ELECTRAbase/addUNKtokens/modelsUNK
+ELECTRAbase/addUNKtokens/modelsUNK-pnn
+ELECTRAbase/addUNKtokens/modelsUNKTwttrPNN
+ELECTRAbase/addEmoji/modelsEmoji
+ELECTRAbase/addEmoji/modelsEmoji-pnn
+ELECTRAbase/addEmoji/modelsEmojiTwttrPNN
 
 lvBERT/base/modelsBase
 lvBERT/base/modelsBase-pnn
