@@ -1,7 +1,7 @@
 const fs = require("fs");
 
 const readTweetsLength = () => {
-  const dir = "./allTweets";
+  const dir = "./brandTweets";
   let allNeutral = 0;
   let allPositive = 0;
   let allNegative = 0;
