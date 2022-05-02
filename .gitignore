@@ -181,6 +181,7 @@ LaBSE/addEmoji/modelsEmoji-pnn
 LaBSE/addEmoji/modelsEmojiTwttrPNN
 LaBSE/labse_bert_model
 
+CASED/predictions
 CASED/BERT/base/modelsBase
 CASED/BERT/base/modelsBase_pnn
 CASED/BERT/cleaned/modelsCleaned
@@ -195,6 +196,7 @@ CASED/ELECTRAbase/base/modelsBase
 CASED/ELECTRAbase/base/modelsBase_pnn
 CASED/ELECTRAbase/cleaned/modelsCleaned
 CASED/ELECTRAbase/cleaned_lowercase/modelsCleaned
+CASED/ELECTRAbase/cleaned_lowercase/modelsCleaned_pnn
 CASED/ELECTRAbase/cleaned/modelsCleaned_pnn
 CASED/ELECTRAbase/addUNKtokens/modelsUNK
 CASED/ELECTRAbase/addUNKtokens_lowercase/modelsUNK
